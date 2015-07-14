@@ -22,6 +22,12 @@ everything up to and including authorization.
 
 ### HOWTO:
 
+Install dependencies with pip:
+
+```
+pip install -r requirements.txt
+```
+
 Edit qftpd.py to match your Qumulo cluster's config:
 
 ```python
@@ -105,14 +111,18 @@ Profit!
 
 ### DEPENDENCIES:
 
+All dependencies can be installed with `pip install -r requirements.txt`
+
 * Python 2.7
 * pyftpdlib https://github.com/giampaolo/pyftpdlib
 * pytz
+* python-dateutil
 * qumulo (Qumulo's REST Client module)
 
 ### KNOWN ISSUES:
 
 * Authorization tested with local users only
-* Read and Write I/O in Qumulo's WebUI only shown at the very end of large transfers all at once
+* I/O in Qumulo's WebUI only show when flushing
 * FTP upload is 100% cached in RAM before flushing to QSFS
 * `chmod` and `chown` currently unsupported
+* directory listings currently limited to 16 entries
