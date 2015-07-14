@@ -146,6 +146,8 @@ class AbstractedQSFS(AbstractedFS):
         # AbstractedQSFS instance created by the FTPHandler
         logger.debug("chdir(%s)" % path)
         assert isinstance(path, unicode), path
+        if not self.isdir(path):
+            raise FilesystemError('%s is not a valid directory' % path)
         self._cwd = self.fs2ftp(path)
 
     def mkdir(self, path):
@@ -164,6 +166,7 @@ class AbstractedQSFS(AbstractedFS):
         assert isinstance(path, unicode), path
         # use the restclient to get the contents of a real path
         response = self.rc.fs.read_directory(page_size=1000, path=path)
+        logger.debug(str(response))
         dir_list = [f['name'] for f in response['files']]
         logger.debug("listdir() will return " + str(dir_list))
         return dir_list
@@ -263,7 +266,10 @@ class AbstractedQSFS(AbstractedFS):
     def isdir(self, path):
         logger.debug("isdir(%s)" % path)
         # if this path has "type": "FS_FILE_TYPE_DIRECTORY", return true
-        response = self.rc.fs.get_attr(path=path)
+        try:
+            response = self.rc.fs.get_attr(path=path)
+        except RequestError as err:
+            raise FilesystemError(err)
         #return super(AbstractedQSFS, self).isdir(path)
         logger.debug("isdir(%s) will return %s" %
                      (path, response['type'] == 'FS_FILE_TYPE_DIRECTORY'))
