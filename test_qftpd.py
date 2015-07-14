@@ -235,11 +235,12 @@ class TestQftpdClients(unittest.TestCase):
         T.start()
         from ftplib import FTP
         ftp = FTP('localhost')
-        response = ftp.login('admin', 'a')
+        response = ftp.login(API_USER, API_PASS)
         ftp.quit()
         # changed the login message!
         #self.assertEqual("230 Login successful.", response)
         self.assertIn('Welcome to', response)
+
 
 class TestTestData(unittest.TestCase):
     def setUp(self):
