@@ -39,7 +39,18 @@ FILE_QSTAT = """{
     "modification_time": "2015-03-05T02:01:58.412045121Z",
     "creation_time": "2015-03-05T02:01:53.498584694Z"
 }"""
-#FILE_PSTAT = dict(st_mode=33188, st_ino=4, st_dev=436207686L, st_nlink=1, st_uid=2090, st_gid=2000, st_size=5, st_atime=1425520913, st_mtime=1425520918, st_ctime=1425520913)
+
+#FILE_PSTAT = dict(
+# st_mode=33188,
+# st_ino=4,
+# st_dev=436207686L,
+# st_nlink=1,
+# st_uid=2090,
+# st_gid=2000,
+# st_size=5,
+# st_atime=1425520913,
+# st_mtime=1425520918,
+# st_ctime=1425520913)
 
 DIR_QSTAT = """{
     "change_time": "2015-03-05T02:01:25.282477271Z",
@@ -109,51 +120,76 @@ class TestQftpdStat(unittest.TestCase):
     def test_time_conversion_timestamp_to_epoch(self):
         timestamp = "2015-03-05T02:01:53.498584694Z"
         target_epoch_time = 1425520913.498584
-        self.assertEqual(target_epoch_time, self.qsfs.convert_timestamp_to_epoch_seconds(timestamp))
+        self.assertEqual(
+            target_epoch_time,
+            self.qsfs.convert_timestamp_to_epoch_seconds(timestamp))
 
     def test_qstat_file_conversion_to_st_mode(self):
         target_st_mode = 33188
-        self.assertEqual(target_st_mode, self.qsfs.get_st_mode(json.loads(FILE_QSTAT)))
+        self.assertEqual(
+            target_st_mode,
+            self.qsfs.get_st_mode(json.loads(FILE_QSTAT)))
 
     def test_qstat_dir_conversion_to_st_mode(self):
         target_st_mode = 16877
-        self.assertEqual(target_st_mode, self.qsfs.get_st_mode(json.loads(DIR_QSTAT)))
+        self.assertEqual(
+            target_st_mode,
+            self.qsfs.get_st_mode(json.loads(DIR_QSTAT)))
 
     def test_qstat_file_conversion_to_st_ino(self):
         target_st_ino = 4
-        self.assertEqual(target_st_ino, self.qsfs.get_st_ino(json.loads(FILE_QSTAT)))
+        self.assertEqual(
+            target_st_ino,
+            self.qsfs.get_st_ino(json.loads(FILE_QSTAT)))
 
     def test_qstat_file_conversion_to_st_dev(self):
         target_st_dev = 0
-        self.assertEqual(target_st_dev, self.qsfs.get_st_dev(json.loads(FILE_QSTAT)))
+        self.assertEqual(
+            target_st_dev,
+            # don't need to pass a FILE_QSTAT to get_st_dev()
+            self.qsfs.get_st_dev())
 
     def test_qstat_file_conversion_to_st_nlink(self):
         target_st_nlink = 1
-        self.assertEqual(target_st_nlink, self.qsfs.get_st_nlink(json.loads(FILE_QSTAT)))
+        self.assertEqual(
+            target_st_nlink,
+            self.qsfs.get_st_nlink(json.loads(FILE_QSTAT)))
 
     def test_qstat_file_conversion_to_st_uid(self):
         target_uid = 12884903978
-        self.assertEqual(target_uid, self.qsfs.get_st_uid(json.loads(FILE_QSTAT)))
+        self.assertEqual(
+            target_uid,
+            self.qsfs.get_st_uid(json.loads(FILE_QSTAT)))
 
     def test_qstat_file_conversion_to_st_gid(self):
         target_gid = 17179871184
-        self.assertEqual(target_gid, self.qsfs.get_st_gid(json.loads(FILE_QSTAT)))
+        self.assertEqual(
+            target_gid,
+            self.qsfs.get_st_gid(json.loads(FILE_QSTAT)))
 
     def test_qstat_file_to_st_size(self):
         target_size = 5
-        self.assertEqual(target_size, self.qsfs.get_st_size(json.loads(FILE_QSTAT)))
+        self.assertEqual(
+            target_size,
+            self.qsfs.get_st_size(json.loads(FILE_QSTAT)))
 
     def test_qstat_file_to_st_atime(self):
         target_atime = 1425520913
-        self.assertEqual(target_atime, self.qsfs.get_st_atime(json.loads(FILE_QSTAT)))
+        self.assertEqual(
+            target_atime,
+            self.qsfs.get_st_atime(json.loads(FILE_QSTAT)))
 
     def test_qstat_file_to_st_mtime(self):
         target_mtime = 1425520918
-        self.assertEqual(target_mtime, self.qsfs.get_st_mtime(json.loads(FILE_QSTAT)))
+        self.assertEqual(
+            target_mtime,
+            self.qsfs.get_st_mtime(json.loads(FILE_QSTAT)))
 
     def test_qstat_file_to_st_ctime(self):
         target_ctime = 1425520913
-        self.assertEqual(target_ctime, self.qsfs.get_st_ctime(json.loads(FILE_QSTAT)))
+        self.assertEqual(
+            target_ctime,
+            self.qsfs.get_st_ctime(json.loads(FILE_QSTAT)))
 
     def test_get_user(self):
         target_user = 'admin'
@@ -236,15 +272,17 @@ class TestWriteBuffer(unittest.TestCase):
         print str(self.fs.rc)
 
     def tearDown(self):
-        """Get rid of the test_1234.txt file that gets written if test_write_buffer_close_writes_qsfs() fails"""
+        """Get rid of the test_1234.txt file that gets written if
+        test_write_buffer_close_writes_qsfs() fails
+        """
         test_file_names = ['test_1234.txt', 'test_foo.txt']
         local_rc = get_rc()
         for filename in test_file_names:
-            target_name = os.path.join('/', filename)
             print "target_name: %s" % filename
             try:
                 local_rc.fs.delete(filename)
-            except RequestError:  # file didn't get created but we're not testing for that here
+            # file didn't get created but we're not testing for that here
+            except RequestError:
                 pass
 
     def test_write_buffer_holds_stuff(self):
@@ -261,7 +299,9 @@ class TestWriteBuffer(unittest.TestCase):
         write_buffer = qftpd.WriteBuffer('/', test_file_name, self.fs)
         write_buffer.write(test_file_contents)
         write_buffer.close()
-        sleep(5)  # sleep < 5sec results in intermittent failures, something about our file system and new files
+        # sleep < 5sec results in intermittent failures, something about qsfs
+        # and (very) newly created files
+        sleep(5)
         # verify there is a file on the fs
         local_rc = get_rc()
         full_path = os.path.join('/', test_file_name)
@@ -286,7 +326,9 @@ class TestQSFSAuthorizer(unittest.TestCase):
     def test_authorizer_returns_restclient(self):
         a = qftpd.QSFSAuthorizer()
         target_class = RestClient
-        self.assertEquals(type(a.impersonate_user(API_USER, API_PASS)), target_class)
+        self.assertEquals(
+            type(a.impersonate_user(API_USER, API_PASS)),
+            target_class)
 
 
 class TestQFTPAuthentication(unittest.TestCase):
