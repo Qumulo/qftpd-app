@@ -1,0 +1,13 @@
+#!/bin/bash
+
+function error()
+{
+    echo -e "\n\n\n\tERROR: Please fix the errors shown above and rerun- check the output above\n"
+    echo -e "\tThese tests depend on:"
+    echo -e "\t\t* a running qumulo cluster"
+    echo -e "\t\t* address and credentials for said cluster defined in qftpd.py"
+    echo -e "\t\t* a privileged port (FTP) on the test host (likely requires root access)\n\n"
+    exit 1
+}
+
+nosetests || error
