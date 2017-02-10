@@ -1,5 +1,9 @@
 __author__ = 'mbott'
 
+# this hack is to deal with ssl errors seen on Mac OSX
+import ssl
+if ssl.OPENSSL_VERSION.split(" ")[1] == '0.9.8zh':
+    ssl._create_default_https_context = ssl._create_unverified_context
 
 import os
 import logging
@@ -23,14 +27,14 @@ from pyftpdlib.log import logger
 from qumulo.rest_client import RestClient
 from qumulo.lib.request import RequestError
 
+# **** You will need to change the API credentials below to make this sample work.
 # Qumulo RESTful API admin address/port and credentials
 # There is at least one call that needs to be performed in an admin context
 # (need to get cluster config stuff to display welcome message, for example).
-
-API_HOST = '192.168.11.147'
+API_HOST = '<cluster-name>'
 API_PORT = '8000'
-API_USER = 'admin'
-API_PASS = 'a'
+API_USER = '<qumulo-api-user>'
+API_PASS = '<qumulo-api-password>'
 
 # For dealing with timestamps
 LOCAL_TZ = 'America/Los_Angeles'
@@ -465,8 +469,8 @@ class QSFSAuthorizer(DummyAuthorizer):
     def get_msg_login(self, username):
         logger.debug("get_msg_login() returns the same message for everyone")
         admin_rc = get_rc()
-        response = admin_rc.config.cluster_config_get()
-        cluster_name = response[u'bootstrap'][u'cluster_name']
+        response = admin_rc.cluster.get_cluster_conf()
+        cluster_name = response[u'cluster_name']
         version = self.rc.version.version()['revision_id']
         return u"Welcome to qftpd on %s (%s)" % (cluster_name, version)
 
