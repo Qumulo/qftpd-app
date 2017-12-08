@@ -1,3 +1,7 @@
+![This github project is now deprecated. Please use Qumulo's built-in FTP solution for better scale, functionality, and security.](deprecate-message.png?raw=true "Deprecated")
+
+**This github project is now deprecated. Please use Qumulo's built-in FTP solution for better scale, functionality, and security.**
+
 # qftpd
 
 ```
@@ -13,9 +17,6 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 ```
-
-
-![This github project is now deprecated. Please use Qumulo's built-in FTP solution for better scale, functionality, and security.](deprecate-message.png?raw=true "Deprecated")
 
 ##An FTP server for Qumulo's REST API
 
