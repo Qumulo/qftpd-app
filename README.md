@@ -1,7 +1,7 @@
 # qftpd
 
 ```
-Copyright (c) 2015 Qumulo, Inc.
+Copyright (c) 2017 Qumulo, Inc.
 
 Licensed under the Educational Community License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
@@ -14,6 +14,7 @@ License for the specific language governing permissions and limitations under
 the License.
 ```
 
+##<div style="background-color:#FFCCAA">This github project is now deprecated. Please use Qumulo's built-in FTP solution for better scale, functionality, and security.</div>
 ##An FTP server for Qumulo's REST API
 ###by Mike Bott <mbott@qumulo.com>
 
