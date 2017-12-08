@@ -14,8 +14,11 @@ License for the specific language governing permissions and limitations under
 the License.
 ```
 
-##<div style="background-color:#FFCCAA">This github project is now deprecated. Please use Qumulo's built-in FTP solution for better scale, functionality, and security.</div>
+
+![This github project is now deprecated. Please use Qumulo's built-in FTP solution for better scale, functionality, and security.](deprecate-message.png?raw=true "Deprecated")
+
 ##An FTP server for Qumulo's REST API
+
 ###by Mike Bott <mbott@qumulo.com>
 
 This FTP server runs against Qumulo's REST API, providing an FTP interface to QSFS. It uses the RestClient for
