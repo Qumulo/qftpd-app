@@ -1,8 +1,9 @@
+# DEPRECATED: qftpd
+This repository has been deprecated in favor of Qumulo's build-in FTP solution for better scale, functionality, and security.  All users should migrate to the new solution as this repository will be deleted at the end of the quarter.
+
 ![This github project is now deprecated. Please use Qumulo's built-in FTP solution for better scale, functionality, and security.](deprecate-message.png?raw=true "Deprecated")
 
-**This github project is now deprecated. Please use Qumulo's built-in FTP solution for better scale, functionality, and security.**
-
-# qftpd
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
 ```
 Copyright (c) 2017 Qumulo, Inc.
